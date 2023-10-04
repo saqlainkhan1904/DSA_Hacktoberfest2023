@@ -1,0 +1,86 @@
+// C++ Implementation of the approach
+#include <bits/stdc++.h>
+using namespace std;
+
+class BrowserHistory {
+public:
+	stack<string> backStack, forwardStack;
+
+	// Constructor to initialize object with
+	// homepage
+	BrowserHistory(string homepage)
+	{
+		backStack.push(homepage);
+	}
+
+	// Visit current url
+	void visit(string url)
+	{
+		while (!forwardStack.empty()) {
+			forwardStack.pop();
+		}
+		backStack.push(url);
+	}
+
+	// 'steps' move backward in history and
+	// return current page
+	string back(int steps)
+	{
+		while (backStack.size() > 1 && steps--) {
+			forwardStack.push(backStack.top());
+			backStack.pop();
+		}
+		return backStack.top();
+	}
+
+	// 'steps' move forward and return
+	// current page
+	string forward(int steps)
+	{
+		while (!forwardStack.empty() && steps--) {
+			backStack.push(forwardStack.top());
+			forwardStack.pop();
+		}
+		return backStack.top();
+	}
+};
+
+// Driver Code
+int main()
+{
+
+
+	// Input case :
+	string homepage;
+	homepage = "gfg.org";
+
+	// Initialise the object of Browser
+	// History
+	BrowserHistory obj(homepage);
+
+	string url = "google.com";
+	obj.visit(url);
+
+	url = "facebook.com";
+	obj.visit(url);
+
+	url = "youtube.com";
+	obj.visit(url);
+
+	cout << obj.back(1) << endl;
+
+	cout << obj.back(1) << endl;
+
+	cout << obj.forward(1) << endl;
+
+	obj.visit("linkedin.com");
+
+	cout << obj.forward(2) << endl;
+
+	cout << obj.back(2) << endl;
+
+	cout << obj.back(7) << endl;
+
+	return 0;
+}
+// } Driver Code Ends
